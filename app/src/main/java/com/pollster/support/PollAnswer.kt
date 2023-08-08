@@ -6,8 +6,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -22,14 +21,39 @@ private val TAG: String = "Pollster - PollAnswer.kt"
 @Composable
 fun PollAnswerGrid(pollQuestion: PollQuestion) {
     Log.d(TAG, "In PollAnswerGrid()")
-    LazyVerticalGrid(
-        columns = GridCells.Fixed(1),
-        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
-        modifier = Modifier.fillMaxSize()
-    ) {
-        items(pollQuestion.answers.size) { index ->
-            PollAnswer(pollAnswer = pollQuestion.answers[index])
+    //TODO - Improve layout of screen
+    Column {
+        Text(text = pollQuestion.question, fontSize = 20.sp)
+        Spacer(modifier = Modifier.height(16.dp))
+
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(1),
+            contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
+            modifier = Modifier.fillMaxWidth().weight(1f)
+        ) {
+            items(pollQuestion.answers.size) { index ->
+                PollAnswer(pollAnswer = pollQuestion.answers[index])
+            }
         }
+        Spacer(modifier = Modifier.height(16.dp))
+        SubmitButton()
+
+
+
+    }
+}
+
+@Composable
+fun SubmitButton(){
+    Log.d(TAG, "In SubmitButton")
+    Button(
+        onClick = { Log.d(TAG, "Next Button selected") },
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp),
+        colors = ButtonDefaults.buttonColors(backgroundColor = Color.Green)
+    ) {
+        Text(text = "Next", fontSize = 20.sp, color = Color.Red)
     }
 }
 
@@ -46,6 +70,7 @@ fun PollAnswer(pollAnswer: String) {
             .clickable(onClick = {
                 Log.d(TAG, "Clicked on ${pollAnswer}")
                 callbackFlag = !callbackFlag
+
             }),
         shape = RoundedCornerShape(15.dp),
         backgroundColor = Color.LightGray,
@@ -64,7 +89,7 @@ fun PollAnswer(pollAnswer: String) {
             )
 
             if (callbackFlag) {
-                Log.d(TAG, "Calling callback function for ")
+                Log.d(TAG, "Calling callback function for pollanswer: ${pollAnswer}")
                 //showPoll(poll.pollQuestions)
             }
 

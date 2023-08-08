@@ -1,5 +1,6 @@
 package com.pollster.data
 
+import android.os.Parcel
 import android.os.Parcelable
 import androidx.compose.runtime.Composable
 import com.pollster.ui.submenu.OpenPolls

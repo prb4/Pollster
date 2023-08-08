@@ -68,7 +68,8 @@ fun MenuPoll(poll: Poll) {
 
             if (callbackFlag) {
                 Log.d(TAG, "PollAnswer callback flag: ")
-                PollQuestionBridge(poll.pollQuestions[0])
+                //TODO - Send multiple questions
+                PollQuestionBridge(poll.pollQuestions)
             }
 
         }

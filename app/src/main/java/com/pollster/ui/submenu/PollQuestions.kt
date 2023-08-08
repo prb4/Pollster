@@ -25,24 +25,31 @@ import com.pollster.data.Poll
 import com.pollster.data.PollQuestion
 import com.pollster.support.PollAnswerGrid
 
+val TAG: String = "Pollster - PollQuestions.kt"
 @Composable
-fun PollQuestionBridge(pollQuestion: PollQuestion){
+fun PollQuestionBridge(pollQuestions: List<PollQuestion>){
+    Log.d(TAG, "In PollQuestionBridge")
     val context = LocalContext.current
-    val intent : Intent = Intent(context, PollQuestions::class.java)
-    intent.putExtra("pollQuestion", pollQuestion)
-    context.startActivity(intent)
+    Intent(context, PollQuestions::class.java).also {
+        it.putExtra("EXTRA_POLL_QUESTIONS", ArrayList(pollQuestions))
+        context.startActivity(it)
+    }
 }
 
 class PollQuestions : ComponentActivity() {
     private val TAG: String = "Pollster - PollQuestions.kt"
+    //TODO - present multiple questions
+    //TODO - keep track of what the user selects
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Log.d(TAG, "In PollQuestions class")
         setContent {
-            val pollQuestion: PollQuestion =
-                intent.getSerializableExtra("pollQuestion") as PollQuestion //TODO - fix
-            ShowPollQuestion(pollQuestion)
-
+            val pollQuestions: List<PollQuestion> =
+                intent.getSerializableExtra("EXTRA_POLL_QUESTIONS") as List<PollQuestion> //TODO - fix
+            //for (pollQuestion in pollQuestions) {
+            ShowPollQuestion(pollQuestions[0])
+            //}
         }
     }
 
@@ -52,8 +59,9 @@ class PollQuestions : ComponentActivity() {
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color.Transparent)
-        ){
+                .background(Color.White)
+        ) {
+            Log.d(TAG, "Sending question: ${pollQuestion.question}")
             PollAnswerGrid(pollQuestion = pollQuestion)
         }
     }
