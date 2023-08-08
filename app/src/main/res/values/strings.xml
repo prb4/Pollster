@@ -3,4 +3,8 @@
     <string name="title_activity_home_page">HomePage</string>
     <string name="title_activity_open_polls">OpenPolls</string>
     <string name="title_activity_image_card">ImageCard</string>
+    <string name="title_activity_display_polls">DisplayPolls</string>
+    <string name="title_activity_poll_answer">PollAnswer</string>
+    <string name="title_activity_poll_questions">PollQuestions</string>
+    <string name="title_activity_poll_grid">PollGrid</string>
 </resources>
