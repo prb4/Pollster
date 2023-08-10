@@ -75,28 +75,91 @@ class PollQuestions : ComponentActivity() {
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                // Button to move to the next or previous image
-                Button(
-                    onClick = {
-                        Log.d(TAG, "Moving to previous image: ${currentIndex} -> ${currentIndex - 1}")
-                        currentIndex = (currentIndex - 1) % pollQuestions.size
-                    },
-                    modifier = Modifier.weight(1f)
-                ) {
-                    Text(text = "Previous image")
-                }
 
-                Spacer(modifier = Modifier.weight(.5f))
+                if (currentIndex == 0){
+                    //First question, dont show "last" button option
+                    //TODO - Lazy but workable way to pin Next button in right corner
+                    Spacer(modifier = Modifier.weight(1f))
+                    Spacer(modifier = Modifier.weight(.5f))
+                    Button(
+                        onClick = {
+                            Log.d(
+                                TAG,
+                                "Moving to next image: ${currentIndex} -> ${currentIndex + 1}"
+                            )
+                            currentIndex = (currentIndex + 1) % pollQuestions.size
 
-                Button(
-                    onClick = {
-                        Log.d(TAG, "Moving to next image: ${currentIndex} -> ${currentIndex + 1}")
-                        currentIndex = (currentIndex + 1) % pollQuestions.size
+                        },
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        Text(text = "Next")
+                    }
 
-                    },
-                    modifier = Modifier.weight(1f)
-                ) {
-                    Text(text = "Next image")
+                } else if (currentIndex == pollQuestions.size - 1) {
+                    //Last question, dont show "next" button option
+                    Button(
+                        onClick = {
+                            Log.d(
+                                TAG,
+                                "Moving to previous image: ${currentIndex} -> ${currentIndex - 1}"
+                            )
+                            currentIndex = (currentIndex - 1) % pollQuestions.size
+                        },
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        Text(text = "Previous")
+                    }
+                    Spacer(modifier = Modifier.weight(.5f))
+
+                    Button(
+                        onClick = {
+                            Log.d(
+                                TAG,
+                                "Finishing questions"
+                            )
+                            currentIndex = (currentIndex + 1) % pollQuestions.size
+
+                        },
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        Text(text = "Finish")
+                        //TODO - Add confirmation screen
+                        //TODo - change color/apperance to distinguish from "Next"
+                    }
+
+
+                } else {
+                    //Show both options
+
+                    // Button to move to the next or previous image
+                    Button(
+                        onClick = {
+                            Log.d(
+                                TAG,
+                                "Moving to previous image: ${currentIndex} -> ${currentIndex - 1}"
+                            )
+                            currentIndex = (currentIndex - 1) % pollQuestions.size
+                        },
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        Text(text = "Previous")
+                    }
+
+                    Spacer(modifier = Modifier.weight(.5f))
+
+                    Button(
+                        onClick = {
+                            Log.d(
+                                TAG,
+                                "Moving to next image: ${currentIndex} -> ${currentIndex + 1}"
+                            )
+                            currentIndex = (currentIndex + 1) % pollQuestions.size
+
+                        },
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        Text(text = "Next")
+                    }
                 }
             }
         }

@@ -61,7 +61,9 @@ class OpenPolls : ComponentActivity() {
             ),
             PollQuestion(question = "What day of the week is your favorite?",
                         answers = listOf("Monday", "Tuesday", "Wednesday")
-            )
+            ),
+            PollQuestion(question = "Is it raining today?",
+                    answers = listOf("Yes", "No"))
         )
 
         val poll2Questions = listOf<PollQuestion>(
@@ -70,7 +72,9 @@ class OpenPolls : ComponentActivity() {
             ),
             PollQuestion(question = "What's your favorite season?",
                         answers = listOf("Summer", "Spring", "Fall", "Winter")
-            )
+            ),
+            PollQuestion(question = "Do you choose A or 1?",
+                    answers = listOf("A", "1"))
         )
         return listOf(
             Poll(title = "Test Poll 1", uuid = "1", pollQuestions = poll1Questions),
