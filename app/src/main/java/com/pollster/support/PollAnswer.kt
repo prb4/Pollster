@@ -35,11 +35,6 @@ fun PollAnswerGrid(pollQuestion: PollQuestion) {
                 PollAnswer(pollAnswer = pollQuestion.answers[index])
             }
         }
-        Spacer(modifier = Modifier.height(16.dp))
-        SubmitButton()
-
-
-
     }
 }
 
@@ -61,16 +56,14 @@ fun SubmitButton(){
 fun PollAnswer(pollAnswer: String) {
     //The display details of the card
     Log.d(TAG, "In PollAnswer()")
-    var callbackFlag by remember { mutableStateOf(false) }
     Card(
         modifier = Modifier
-            .padding(8.dp)
+            .padding(12.dp)
             .fillMaxWidth()
-            .height(150.dp) //TODO - make this 25% of the screen height
+            //.height(150.dp) //TODO - make this 25% of the screen height
+            .fillMaxHeight()
             .clickable(onClick = {
                 Log.d(TAG, "Clicked on ${pollAnswer}")
-                callbackFlag = !callbackFlag
-
             }),
         shape = RoundedCornerShape(15.dp),
         backgroundColor = Color.LightGray,
@@ -87,12 +80,6 @@ fun PollAnswer(pollAnswer: String) {
                 textAlign = TextAlign.Center,
                 fontSize = 20.sp
             )
-
-            if (callbackFlag) {
-                Log.d(TAG, "Calling callback function for pollanswer: ${pollAnswer}")
-                //showPoll(poll.pollQuestions)
-            }
-
         }
     }
 }
