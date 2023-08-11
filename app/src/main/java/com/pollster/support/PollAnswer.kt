@@ -1,10 +1,13 @@
 package com.pollster.support
 
 import android.util.Log
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.selection.selectable
+import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
@@ -25,16 +28,7 @@ fun PollAnswerGrid(pollQuestion: PollQuestion) {
     Column {
         Text(text = pollQuestion.question, fontSize = 20.sp)
         Spacer(modifier = Modifier.height(16.dp))
-
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(1),
-            contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
-            modifier = Modifier.fillMaxWidth().weight(1f)
-        ) {
-            items(pollQuestion.answers.size) { index ->
-                PollAnswer(pollAnswer = pollQuestion.answers[index])
-            }
-        }
+        SingleSelectionGrid(answers = pollQuestion.answers)
     }
 }
 
@@ -53,33 +47,52 @@ fun SubmitButton(){
 }
 
 @Composable
-fun PollAnswer(pollAnswer: String) {
-    //The display details of the card
-    Log.d(TAG, "In PollAnswer()")
-    Card(
+fun SingleSelectionGrid(answers: List<String>) {
+    var selectedItemId by remember { mutableStateOf<String?>(null) }
+
+    LazyVerticalGrid(
+        columns = GridCells.Fixed(1),
+        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
         modifier = Modifier
-            .padding(12.dp)
             .fillMaxWidth()
-            //.height(150.dp) //TODO - make this 25% of the screen height
-            .fillMaxHeight()
-            .clickable(onClick = {
-                Log.d(TAG, "Clicked on ${pollAnswer}")
-            }),
-        shape = RoundedCornerShape(15.dp),
-        backgroundColor = Color.LightGray,
-        elevation = 5.dp
-    ) {
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Text(
-                text = pollAnswer.uppercase(),
-                modifier = Modifier.padding(8.dp),
-                textAlign = TextAlign.Center,
-                fontSize = 20.sp
-            )
+            //.weight(1f)
+    ){
+        answers.forEach { item ->
+            val isSelected = item == selectedItemId
+
+            item {
+                Card(
+                    modifier = Modifier
+                        .padding(12.dp)
+                        .fillMaxWidth()
+                        //.height(150.dp) //TODO - make this 25% of the screen height
+                        .fillMaxHeight()
+                        .selectable(
+                            selected = isSelected,
+                            onClick = {
+                                selectedItemId = if (isSelected) null else item
+                            }
+                        ),
+                        //.background(if (isSelected) Color.Yellow else Color.Gray),
+                    shape = RoundedCornerShape(15.dp),
+                    backgroundColor = if (isSelected) Color.Yellow else Color.LightGray,
+                    elevation = 5.dp
+                    //contentAlignment = Alignment.Center
+                ) {
+                    Column(
+                        modifier = Modifier.fillMaxSize(),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Text(
+                            text = item.uppercase(),
+                            modifier = Modifier.padding(8.dp),
+                            textAlign = TextAlign.Center,
+                            fontSize = 20.sp
+                        )
+                    }
+                }
+            }
         }
     }
 }

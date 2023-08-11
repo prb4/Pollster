@@ -10,12 +10,14 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.pollster.data.PollQuestion
+import com.pollster.data.UserSelection
 import com.pollster.support.PollAnswerGrid
 
 val TAG: String = "Pollster - PollQuestions.kt"
@@ -48,6 +50,7 @@ class PollQuestions : ComponentActivity() {
         Log.d(TAG, "In PollQuestionsSequence")
 
         var currentIndex by remember { mutableStateOf(0) }
+        //TODO - should this be rememberSaveable?
 
         Column(
             modifier = Modifier
@@ -116,6 +119,7 @@ class PollQuestions : ComponentActivity() {
                             Log.d(
                                 TAG,
                                 "Finishing questions"
+                            //TODO - confirm all questions have been answered
                             )
                             currentIndex = (currentIndex + 1) % pollQuestions.size
 

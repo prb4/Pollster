@@ -57,25 +57,27 @@ class OpenPolls : ComponentActivity() {
         Log.d(TAG, "In getOpenPolls")
         val poll1Questions = listOf<PollQuestion>(
             PollQuestion(question = "What is your favorite color?",
-                        answers = listOf("Red", "Blue", "Green", "Gray")
+                answers = listOf("Red", "Blue", "Green", "Gray")
             ),
             PollQuestion(question = "What day of the week is your favorite?",
-                        answers = listOf("Monday", "Tuesday", "Wednesday")
+                answers = listOf("Monday", "Tuesday", "Wednesday")
             ),
             PollQuestion(question = "Is it raining today?",
-                    answers = listOf("Yes", "No"))
+                answers = listOf("Yes", "No")
+            )
         )
 
         val poll2Questions = listOf<PollQuestion>(
             PollQuestion(question = "Whats your favorite animal?",
-                        answers = listOf("Dog", "Cat", "Ferrer")
+                answers = listOf("Dog", "Cat", "Ferret")
             ),
             PollQuestion(question = "What's your favorite season?",
-                        answers = listOf("Summer", "Spring", "Fall", "Winter")
+                answers = listOf("Spring", "Summer", "Fall", "Winter")
             ),
             PollQuestion(question = "Do you choose A or 1?",
-                    answers = listOf("A", "1"))
-        )
+                answers = listOf("A", "1")
+                )
+            )
         return listOf(
             Poll(title = "Test Poll 1", uuid = "1", pollQuestions = poll1Questions),
             Poll(title = "Test Poll 2", uuid = "2", pollQuestions = poll2Questions)
