@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -50,7 +49,9 @@ class PollQuestions : ComponentActivity() {
         Log.d(TAG, "In PollQuestionsSequence")
 
         var currentIndex by remember { mutableStateOf(0) }
+
         //TODO - should this be rememberSaveable?
+        var userSelection by remember { mutableStateOf(UserSelection())}
 
         Column(
             modifier = Modifier
@@ -66,7 +67,7 @@ class PollQuestions : ComponentActivity() {
                     .weight(1f)
             ) {
                 Log.d(TAG, "Displaying question: ${pollQuestions[currentIndex].question}")
-                PollAnswerGrid(pollQuestion = pollQuestions[currentIndex])
+                PollAnswerGrid(pollQuestion = pollQuestions[currentIndex], userSelection = userSelection, onEditUserSelection = {userSelection = it})
             }
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -84,88 +85,82 @@ class PollQuestions : ComponentActivity() {
                     //TODO - Lazy but workable way to pin Next button in right corner
                     Spacer(modifier = Modifier.weight(1f))
                     Spacer(modifier = Modifier.weight(.5f))
-                    Button(
-                        onClick = {
-                            Log.d(
-                                TAG,
-                                "Moving to next image: ${currentIndex} -> ${currentIndex + 1}"
-                            )
-                            currentIndex = (currentIndex + 1) % pollQuestions.size
-
-                        },
-                        modifier = Modifier.weight(1f)
-                    ) {
-                        Text(text = "Next")
-                    }
+                    NextButton(currentIndex = currentIndex, size = pollQuestions.size, onIndexChange = { newIndex -> currentIndex = newIndex})
 
                 } else if (currentIndex == pollQuestions.size - 1) {
                     //Last question, dont show "next" button option
-                    Button(
-                        onClick = {
-                            Log.d(
-                                TAG,
-                                "Moving to previous image: ${currentIndex} -> ${currentIndex - 1}"
-                            )
-                            currentIndex = (currentIndex - 1) % pollQuestions.size
-                        },
-                        modifier = Modifier.weight(1f)
-                    ) {
-                        Text(text = "Previous")
-                    }
+                    PreviousButton(currentIndex = currentIndex, size = pollQuestions.size, onIndexChange = { newIndex -> currentIndex = newIndex})
                     Spacer(modifier = Modifier.weight(.5f))
-
-                    Button(
-                        onClick = {
-                            Log.d(
-                                TAG,
-                                "Finishing questions"
-                            //TODO - confirm all questions have been answered
-                            )
-                            currentIndex = (currentIndex + 1) % pollQuestions.size
-
-                        },
-                        modifier = Modifier.weight(1f)
-                    ) {
-                        Text(text = "Finish")
-                        //TODO - Add confirmation screen
-                        //TODo - change color/apperance to distinguish from "Next"
-                    }
+                    FinishButton()
 
 
                 } else {
                     //Show both options
 
                     // Button to move to the next or previous image
-                    Button(
-                        onClick = {
-                            Log.d(
-                                TAG,
-                                "Moving to previous image: ${currentIndex} -> ${currentIndex - 1}"
-                            )
-                            currentIndex = (currentIndex - 1) % pollQuestions.size
-                        },
-                        modifier = Modifier.weight(1f)
-                    ) {
-                        Text(text = "Previous")
-                    }
-
+                    PreviousButton(currentIndex = currentIndex, size = pollQuestions.size, onIndexChange = { newIndex -> currentIndex = newIndex})
                     Spacer(modifier = Modifier.weight(.5f))
-
-                    Button(
-                        onClick = {
-                            Log.d(
-                                TAG,
-                                "Moving to next image: ${currentIndex} -> ${currentIndex + 1}"
-                            )
-                            currentIndex = (currentIndex + 1) % pollQuestions.size
-
-                        },
-                        modifier = Modifier.weight(1f)
-                    ) {
-                        Text(text = "Next")
-                    }
+                    NextButton(currentIndex = currentIndex, size = pollQuestions.size, onIndexChange = { newIndex -> currentIndex = newIndex})
                 }
             }
         }
+    }
+}
+@Composable
+fun PreviousButton(currentIndex: Int,
+                   size: Int,
+                   onIndexChange: (Int) -> Unit)
+{
+    Button(
+        onClick = {
+            Log.d(
+                TAG,
+                "Moving to previous image: ${currentIndex} -> ${currentIndex - 1}"
+            )
+            onIndexChange((currentIndex - 1) % size)
+            //currentIndex = (currentIndex - 1) % size
+        },
+        //modifier = Modifier.weight(1f)
+    ) {
+        Text(text = "Previous")
+    }
+}
+
+@Composable
+fun NextButton(currentIndex: Int,
+               size: Int,
+                onIndexChange: (Int) -> Unit) {
+    Button(
+        onClick = {
+            Log.d(
+                TAG,
+                "Moving to next image: ${currentIndex} -> ${currentIndex + 1}"
+            )
+            onIndexChange((currentIndex + 1) % size)
+            //currentIndex = (currentIndex + 1) % size
+
+        },
+        //modifier = Modifier.weight(1f)
+    ) {
+        Text(text = "Next")
+    }
+}
+
+@Composable
+fun FinishButton(){
+    Button(
+        onClick = {
+            Log.d(
+                TAG,
+                "Finishing questions"
+                //TODO - confirm all questions have been answered
+            )
+        },
+        //modifier = Modifier.weight(1f)
+    //TODO - add weight
+    ) {
+        Text(text = "Finish")
+        //TODO - Add confirmation screen
+        //TODo - change color/apperance to distinguish from "Next"
     }
 }
