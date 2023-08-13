@@ -103,15 +103,14 @@ class PollQuestions : ComponentActivity() {
                     .background(Color.White)
                     .weight(1f)
             ) {
-                PollAnswerGrid(pollQuestion = pollQuestions[currentIndex], userSelection = userSelection, onEditUserSelection = {userSelection = it}, userAnswers = userAnswers, currentIndex = currentIndex)
-                Log.d(TAG, "User selection: ${userSelection.selection}")
-
                 //TODO - fix this. Having issues accurately tracking the userAnswers. It will update appropriately when the user makes a selection, but will update either the previous or next question with the same (ie: wrong answer)
                 for (key in userSelection.selection.keys) {
                     if (key == pollQuestions[currentIndex].question){
                         userAnswers.set(currentIndex, UserAnswer(mapOf(currentIndex to userSelection)))
                     }
                 }
+                PollAnswerGrid(pollQuestion = pollQuestions[currentIndex], userSelection = userSelection, onEditUserSelection = {userSelection = it}, userAnswers = userAnswers, currentIndex = currentIndex)
+                Log.d(TAG, "User selection: ${userSelection.selection}")
 
                 userAnswers.forEach { item ->
                     Log.d(TAG, "Questions: ${item.toString()}")
@@ -140,7 +139,6 @@ class PollQuestions : ComponentActivity() {
                     PreviousButton(currentIndex = currentIndex, size = pollQuestions.size, onIndexChange = { newIndex -> currentIndex = newIndex})
                     Spacer(modifier = Modifier.weight(.5f))
                     FinishButton()
-
 
                 } else {
                     //Show both options
