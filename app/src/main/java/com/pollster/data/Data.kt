@@ -20,8 +20,33 @@ data class Poll(
 
 data class PollQuestion(
     val question: String,
-    val answers: List<String>
+    val answers: List<Answer>
 ) : java.io.Serializable
+
+data class UserSelection(
+    //String 1 is the actual question
+    //String 2 is the actual answer
+    //TODO - change this to a question ID and an answer ID
+    val selection: Map<String, String> = emptyMap()
+) {
+    fun withSelection(question: String, answer: String): UserSelection {
+        return copy(mapOf(question to answer))
+    }
+}
+
+data class Answer(
+    val answer: String,
+    var isSelected: Boolean
+) : java.io.Serializable
+
+data class UserAnswer(
+    val userAnswer: Map<Int, UserSelection> = emptyMap()
+)
+
+data class SelectionOption(
+    val option: String,
+    val isSelected: Boolean
+)
 
 //TODO - conditional questions based on another answer
 val imageCardList = listOf(

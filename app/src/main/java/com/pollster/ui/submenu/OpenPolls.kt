@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import com.pollster.data.Answer
 import com.pollster.data.Poll
 import com.pollster.data.PollQuestion
 import com.pollster.support.MenuPollGrid
@@ -57,27 +58,45 @@ class OpenPolls : ComponentActivity() {
         Log.d(TAG, "In getOpenPolls")
         val poll1Questions = listOf<PollQuestion>(
             PollQuestion(question = "What is your favorite color?",
-                answers = listOf("Red", "Blue", "Green", "Gray")
+                answers = listOf(Answer("Red", false),
+                    Answer("Blue", false),
+                    Answer("Green", false),
+                    Answer("Gray", false)
+                )
             ),
             PollQuestion(question = "What day of the week is your favorite?",
-                answers = listOf("Monday", "Tuesday", "Wednesday")
+                answers = listOf(Answer("Monday", false),
+                                Answer("Tuesday", false),
+                                Answer("Wednesday", false)
+                )
             ),
             PollQuestion(question = "Is it raining today?",
-                answers = listOf("Yes", "No")
+                answers = listOf(Answer("Yes", false),
+                                Answer("No", false)
+                )
             )
         )
 
         val poll2Questions = listOf<PollQuestion>(
             PollQuestion(question = "Whats your favorite animal?",
-                answers = listOf("Dog", "Cat", "Ferret")
+                answers = listOf(Answer("Dog", false),
+                                Answer("Cat", false),
+                                Answer("Ferret", false)
+                )
             ),
             PollQuestion(question = "What's your favorite season?",
-                answers = listOf("Spring", "Summer", "Fall", "Winter")
+                answers = listOf(Answer("Spring", false),
+                                Answer("Summer", false),
+                                Answer("Fall", false),
+                                Answer("Winter", false)
+                )
             ),
             PollQuestion(question = "Do you choose A or 1?",
-                answers = listOf("A", "1")
+                answers = listOf(Answer("A", false),
+                                Answer("1", false)
                 )
             )
+        )
         return listOf(
             Poll(title = "Test Poll 1", uuid = "1", pollQuestions = poll1Questions),
             Poll(title = "Test Poll 2", uuid = "2", pollQuestions = poll2Questions)
