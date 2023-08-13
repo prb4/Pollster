@@ -51,32 +51,6 @@ class PollQuestions : ComponentActivity() {
             PollQuestionsSequence(pollQuestions = pollQuestions)
         }
     }
-/*
-    @Composable
-    fun SingleSelectionList(options: List<PollQuestion>, onOptionClicked: (PollQuestion) -> Unit) {
-        LazyColumn(){
-            items(options[0].answers.size) { index -> SingleSelectionCard(options[index], onOptionClicked)}
-        }
-    }
-
-    @Composable
-    fun SingleSelectionCard(selectionOption: PollQuestion, onOptionClicked: (PollQuestion) -> Unit) {
-        Surface(modifier = Modifier
-            .fillMaxSize()
-            .padding(horizontal = 8.dp, vertical = 4.dp)){
-            Surface(modifier = Modifier
-                .border(1.dp, MaterialTheme.colors.primary, RectangleShape)
-                .clickable(true, onClick = {
-                    onOptionClicked(selectionOption)
-                } ),
-                color = if (selectionOption.an){MaterialTheme.colors.primary} else {MaterialTheme.colors.background},
-            ){
-                Row(modifier = Modifier
-                    .padding(16.dp)) {
-                    Text(text = selectionOption.option,
-                        style = MaterialTheme.typography.body1)
-    }
-*/
     @Composable
     fun PollQuestionsSequence(pollQuestions: List<PollQuestion>) {
         Log.d(TAG, "In PollQuestionsSequence")
@@ -85,6 +59,7 @@ class PollQuestions : ComponentActivity() {
 
         //TODO - should this be rememberSaveable?
         var userSelection by remember { mutableStateOf(UserSelection())}
+
         var userAnswers by remember { mutableStateOf(
             Array<UserAnswer>(pollQuestions.size) { i -> UserAnswer()}
             )
@@ -138,7 +113,12 @@ class PollQuestions : ComponentActivity() {
                     //Last question, dont show "next" button option
                     PreviousButton(currentIndex = currentIndex, size = pollQuestions.size, onIndexChange = { newIndex -> currentIndex = newIndex})
                     Spacer(modifier = Modifier.weight(.5f))
-                    FinishButton()
+                    if (confirmCompletion(userAnswers = userAnswers)){
+                        FinishButton(enabled = true)
+                    } else{
+                        FinishButton(enabled = false)
+                    }
+
 
                 } else {
                     //Show both options
@@ -189,15 +169,18 @@ fun NextButton(currentIndex: Int,
 }
 
 @Composable
-fun FinishButton(){
+fun FinishButton(enabled: Boolean){
+    var showConfirmationDialog by remember { mutableStateOf(false)}
     Button(
         onClick = {
             Log.d(
                 TAG,
                 "Finishing questions"
-                //TODO - confirm all questions have been answered
             )
+            showConfirmationDialog = true
+
         },
+        enabled = enabled
         //modifier = Modifier.weight(1f)
     //TODO - add weight
     ) {
@@ -205,32 +188,20 @@ fun FinishButton(){
         //TODO - Add confirmation screen
         //TODo - change color/apperance to distinguish from "Next"
     }
-}
-/*
-class SelectionOption(val option: String, var initialSelectedValue: Boolean){
-    var selected by mutableStateOf(initialSelectedValue)
-
-    @Composable
-    fun SingleSelectionList(options: List<SelectionOption>, onOptionClicked: (SelectionOption) -> Unit) {
-        LazyColumn(){
-            items(options) { option -> SingleSelectionCard(option, onOptionClicked)}
-        }
+    if (showConfirmationDialog) {
+        ConfirmationDialog(onDismissRequest = {
+            showConfirmationDialog = false
+        })
     }
 
-    @Composable
-    fun SingleSelectionCard(selectionOption: SelectionOption, onOptionClicked: (SelectionOption) -> Unit) {
-        Surface(modifier = Modifier
-            .fillMaxSize()
-            .padding(horizontal = 8.dp, vertical = 4.dp)){
-            Surface(modifier = Modifier
-                .border(1.dp, MaterialTheme.colors.primary, RectangleShape)
-                .clickable(true, onClick = {
-                    onOptionClicked(selectionOption)
-                } ),
-                color = if (selectionOption.selected){MaterialTheme.colors.primary} else {MaterialTheme.colors.background},
-            ){
-              Row(modifier = Modifier
-                  .padding(16.dp)) {
-                  Text(text = selectionOption.option,
-                  style = MaterialTheme.typography.body1)
-*/
+}
+
+fun confirmCompletion(userAnswers: Array<UserAnswer>): Boolean {
+    userAnswers.forEach { item ->
+        if (item.userAnswer.isNullOrEmpty()) {
+            Log.d(TAG, "${item.toString()} is not answered")
+            return false
+        }
+    }
+    return true
+}
