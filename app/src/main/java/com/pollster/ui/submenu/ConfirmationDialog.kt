@@ -17,9 +17,10 @@ import com.pollster.R
 
 @Composable
 fun ConfirmationDialog(
-    onDismissRequest: () -> Unit
+    onDismissRequest: () -> Unit,
+    onConfirmRequest: () -> Unit
 ) {
-    Dialog(onDismissRequest = { onDismissRequest }) {
+    Dialog(onDismissRequest = { onDismissRequest() }) {
         Card {
             Column() {
                 Text(text = stringResource(id = R.string.confirmation_question),
@@ -27,7 +28,8 @@ fun ConfirmationDialog(
                     textAlign = TextAlign.Center,
                     modifier = Modifier.padding(24.dp)
                 )
-                TextButton(onClick = { /*TODO - submit answers*/ }) {
+                TextButton(onClick = { onConfirmRequest()
+                                        onDismissRequest()}) {
                     Text(text = "Yes",
                         modifier = Modifier.padding(8.dp).fillMaxWidth(),
                         textAlign = TextAlign.Center
@@ -41,6 +43,5 @@ fun ConfirmationDialog(
                 }
             }
         }
-
     }
 }

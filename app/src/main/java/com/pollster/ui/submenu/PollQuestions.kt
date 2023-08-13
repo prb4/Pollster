@@ -114,12 +114,10 @@ class PollQuestions : ComponentActivity() {
                     PreviousButton(currentIndex = currentIndex, size = pollQuestions.size, onIndexChange = { newIndex -> currentIndex = newIndex})
                     Spacer(modifier = Modifier.weight(.5f))
                     if (confirmCompletion(userAnswers = userAnswers)){
-                        FinishButton(enabled = true)
+                        FinishButton(enabled = true, onConfirmRequest = {sendRequest(userAnswers)})
                     } else{
-                        FinishButton(enabled = false)
+                        FinishButton(enabled = false, onConfirmRequest = { })
                     }
-
-
                 } else {
                     //Show both options
                     // Button to move to the next or previous image
@@ -169,7 +167,8 @@ fun NextButton(currentIndex: Int,
 }
 
 @Composable
-fun FinishButton(enabled: Boolean){
+fun FinishButton(enabled: Boolean,
+                 onConfirmRequest: () -> Unit){
     var showConfirmationDialog by remember { mutableStateOf(false)}
     Button(
         onClick = {
@@ -191,7 +190,8 @@ fun FinishButton(enabled: Boolean){
     if (showConfirmationDialog) {
         ConfirmationDialog(onDismissRequest = {
             showConfirmationDialog = false
-        })
+        },
+            onConfirmRequest = onConfirmRequest)
     }
 
 }
@@ -204,4 +204,11 @@ fun confirmCompletion(userAnswers: Array<UserAnswer>): Boolean {
         }
     }
     return true
+}
+
+fun sendRequest(userAnswers: Array<UserAnswer>) {
+    Log.d(TAG, "in sendRequest")
+    //TODO - sendRequest
+    //TODO - wait till confirm that the answers were sent, show confirmation to user, then return
+
 }

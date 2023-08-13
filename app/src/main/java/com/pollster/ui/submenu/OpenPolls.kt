@@ -34,9 +34,6 @@ class OpenPolls : ComponentActivity() {
         setContent {
             Log.d(TAG, "In OpenPolls class")
             ShowOpenPolls()
-            //TODO - show open polls
-            //TODO - select open poll
-            //TODO - Go to open poll
             //TODO - Return to this screen
         }
     }
