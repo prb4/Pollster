@@ -11,4 +11,7 @@
     <string name="title_activity_poll_grid">PollGrid</string>
     <string name="title_activity_create_poll">CreatePoll</string>
     <string name="title_activity_create_new_poll">CreateNewPoll</string>
+
+    <integer name="CHOICE_FINISH">0</integer>
+    <integer name="CHOICE_NEXT">1</integer>
 </resources>

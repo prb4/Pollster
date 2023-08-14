@@ -11,6 +11,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import com.pollster.R
 import com.pollster.data.Answer
 import com.pollster.data.PollQuestion
 
@@ -26,34 +27,58 @@ class CreateNewPoll : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            NewPoll()
+            StartNewPoll()
         }
     }
 }
 
 @Composable
-fun NewPoll() {
-    Log.d(TAG, "in CreateNewPoll")
+fun StartNewPoll(){
+    var pollQuestions : MutableList<PollQuestion> by remember {
+        mutableStateOf(
+            mutableListOf<PollQuestion>()
+        )
+    }
+    var choice: Int = -1
+
+    NewPoll(onUserChoice = { it_pollQuestion, it_choice ->
+        pollQuestions.add(it_pollQuestion)
+        choice = it_choice
+        Log.d(TAG, "StartNewPoll: Choice: ${choice}, pollQuestion: ${pollQuestions.toString()}")
+    })
+
+    //TODO - how do i get here to continue the work flow?
+}
+
+@Composable
+fun NewPoll(onUserChoice: (PollQuestion, Int) -> Unit) {
+    Log.d(TAG, "in NewPoll")
     var question by remember { mutableStateOf("") }
     var answer1 by remember { mutableStateOf("") }
     var answer2 by remember { mutableStateOf("") }
     var answer3 by remember { mutableStateOf("") }
     var answer4 by remember { mutableStateOf("") }
     var showNextQuestionDialog by remember { mutableStateOf(false)}
-    var pollQuestions: List<PollQuestion> by remember {
-        mutableStateOf(
-            listOf(
-                PollQuestion(
-                    "", listOf(
-                        Answer(
-                            "", false
-                        )
-                    )
-                )
-            )
-        )
+
+    var newPollQuestion: PollQuestion by remember { mutableStateOf(PollQuestion("", listOf(Answer("", false))))}
+    //var pollQuestions : List<PollQuestion> = remember { listOf(PollQuestion("", listOf(Answer("", false))))}
+    //var pollQuestions : MutableList<PollQuestion> by remember { mutableStateOf(mutableListOf<PollQuestion>())}
+    var selectedChoice by remember { mutableStateOf(-1) }
+
+    if (selectedChoice == R.integer.CHOICE_NEXT) {
+        Log.d(TAG, "Next was picked")
+        question = ""
+        answer1 = ""
+        answer2 = ""
+        answer3 = ""
+        answer4 = ""
+        onUserChoice(newPollQuestion, R.integer.CHOICE_NEXT)
+        selectedChoice = -1
+
+    } else if (selectedChoice == R.integer.CHOICE_FINISH) {
+        Log.d(TAG, "Finish was picked")
+        onUserChoice(newPollQuestion, R.integer.CHOICE_FINISH)
     }
-    var newPollQuestion: PollQuestion = PollQuestion("", listOf(Answer("", false)))
 
     Column(modifier = Modifier.fillMaxSize()) {
 
@@ -106,11 +131,13 @@ fun NewPoll() {
         ) {
             Button(onClick = { Log.d(TAG, "Clicked on Prev button")
                 newPollQuestion = buildPollQuestion(question = question, answers = listOf(answer1, answer2, answer3, answer4))
+                //Log.d(TAG, "New poll question: ${newPollQuestion}")
             }) {
                 Text(text = "Prev Question")
             }
             Button(onClick = { Log.d(TAG, "Clicked on Next button")
                 newPollQuestion = buildPollQuestion(question = question, answers = listOf(answer1, answer2, answer3, answer4))
+                //Log.d(TAG, "New poll question: ${newPollQuestion}")
                 showNextQuestionDialog = true}) {
                 Text(text = "Next")
             }
@@ -119,8 +146,10 @@ fun NewPoll() {
         if (showNextQuestionDialog) {
             CreateNextQuestionDialog(onDismissRequest = {
                 showNextQuestionDialog = false
-            })
-            
+            }){
+                selectedChoice = it
+                Log.d(TAG, "Choice: ${it}")
+            }
         }
     }
 }

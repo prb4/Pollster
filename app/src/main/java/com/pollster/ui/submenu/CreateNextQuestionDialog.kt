@@ -1,5 +1,6 @@
 package com.pollster.ui.submenu
 
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -15,9 +16,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.pollster.R
 
+private val TAG: String = "Pollster - CreateNextQuestionDialog.kt"
 @Composable
 fun CreateNextQuestionDialog(
-    onDismissRequest: () -> Unit
+    onDismissRequest: () -> Unit,
+    userChoice: (Int) -> Int
 ) {
     Dialog(onDismissRequest = { onDismissRequest() }) {
         Card {
@@ -27,14 +30,16 @@ fun CreateNextQuestionDialog(
                     textAlign = TextAlign.Center,
                     modifier = Modifier.padding(24.dp)
                 )
-                TextButton(onClick = { /*TODO*/
+                TextButton(onClick = {
+                    Log.d(TAG, "CHOICE_FINISH: ${R.integer.CHOICE_FINISH}")
+                    userChoice(R.integer.CHOICE_FINISH)
                     onDismissRequest()}) {
                     Text(text = "Finish",
                         modifier = Modifier.padding(8.dp).fillMaxWidth(),
                         textAlign = TextAlign.Center
                     )
                 }
-                TextButton(onClick = { /*TODO */
+                TextButton(onClick = { userChoice(R.integer.CHOICE_NEXT)
                     onDismissRequest() }) {
                     Text(text = "Next question",
                         modifier = Modifier.padding(8.dp).fillMaxWidth(),
