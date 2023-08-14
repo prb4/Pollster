@@ -10,7 +10,7 @@ import com.pollster.support.ImageCardGrid
 
 class HomePage : ComponentActivity() {
 
-    val TAG: String = "ClothingMenu.kt"
+    val TAG: String = "HomePage.kt"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

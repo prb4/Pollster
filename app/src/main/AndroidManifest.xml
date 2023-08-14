@@ -12,6 +12,16 @@
         android:theme="@style/Theme.Pollster"
         tools:targetApi="31">
         <activity
+            android:name=".ui.submenu.CreateNewPoll"
+            android:exported="false"
+            android:label="@string/title_activity_create_new_poll"
+            android:theme="@style/Theme.Pollster" />
+        <activity
+            android:name=".ui.submenu.CreatePoll"
+            android:exported="false"
+            android:label="@string/title_activity_create_poll"
+            android:theme="@style/Theme.Pollster" />
+        <activity
             android:name=".ui.submenu.PollQuestions"
             android:exported="false"
             android:label="@string/title_activity_poll_questions"

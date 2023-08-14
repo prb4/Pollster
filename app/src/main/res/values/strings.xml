@@ -8,4 +8,6 @@
     <string name="title_activity_poll_answer">PollAnswer</string>
     <string name="title_activity_poll_questions">PollQuestions</string>
     <string name="title_activity_poll_grid">PollGrid</string>
+    <string name="title_activity_create_poll">CreatePoll</string>
+    <string name="title_activity_create_new_poll">CreateNewPoll</string>
 </resources>

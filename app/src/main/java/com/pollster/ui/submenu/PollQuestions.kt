@@ -27,7 +27,7 @@ import com.pollster.data.UserAnswer
 import com.pollster.data.UserSelection
 import com.pollster.support.PollAnswerGrid
 
-val TAG: String = "Pollster - PollQuestions.kt"
+private val TAG: String = "Pollster - PollQuestions.kt"
 @Composable
 fun PollQuestionBridge(pollQuestions: List<PollQuestion>){
     Log.d(TAG, "In PollQuestionBridge")
