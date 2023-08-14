@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Pollster</string>
     <string name="confirmation_question">Are you sure you want to submit your answers</string>
+    <string name="create_poll_question">Do you want to complete your poll or create another question</string>
     <string name="title_activity_home_page">HomePage</string>
     <string name="title_activity_open_polls">OpenPolls</string>
     <string name="title_activity_image_card">ImageCard</string>

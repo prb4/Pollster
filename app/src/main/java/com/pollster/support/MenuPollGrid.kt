@@ -16,9 +16,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.pollster.data.Poll
-import com.pollster.data.PollQuestion
 import com.pollster.ui.submenu.PollQuestionBridge
-import com.pollster.ui.submenu.PollQuestions
 
 private val TAG: String = "Pollster - MenuPollGrid.kt"
 

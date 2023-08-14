@@ -18,8 +18,8 @@ data class Poll(
 )
 
 data class PollQuestion(
-    val question: String,
-    val answers: List<Answer>
+    var question: String,
+    var answers: List<Answer>
 ) : java.io.Serializable
 
 data class UserSelection(
